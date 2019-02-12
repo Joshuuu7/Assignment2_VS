@@ -17,6 +17,7 @@ namespace FloresOlderr_Assignment2
 
     public partial class Form1 : Form
     {
+        //Lists for overall storge and retrieval throughtout the app.
         List<Player> player_roster = new List<Player>();
         List<Guild> guild_roster = new List<Guild>();
         Player selected_player;
