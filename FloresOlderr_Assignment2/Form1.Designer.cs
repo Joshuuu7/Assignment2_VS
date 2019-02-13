@@ -62,7 +62,7 @@ namespace FloresOlderr_Assignment2
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
+            this.AddGuildButton = new System.Windows.Forms.Button();
             this.GuildTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ServerComboBox = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -94,6 +94,7 @@ namespace FloresOlderr_Assignment2
             this.DisbandGuildButton.TabIndex = 1;
             this.DisbandGuildButton.Text = "Disband Guild";
             this.DisbandGuildButton.UseVisualStyleBackColor = true;
+            this.DisbandGuildButton.Click += new System.EventHandler(this.DisbandGuildButton_Click);
             // 
             // JoinGuildButton
             // 
@@ -130,6 +131,7 @@ namespace FloresOlderr_Assignment2
             // 
             // PlayersListView
             // 
+            this.PlayersListView.HideSelection = false;
             this.PlayersListView.LabelWrap = false;
             this.PlayersListView.Location = new System.Drawing.Point(395, 100);
             this.PlayersListView.Name = "PlayersListView";
@@ -137,7 +139,6 @@ namespace FloresOlderr_Assignment2
             this.PlayersListView.TabIndex = 5;
             this.PlayersListView.UseCompatibleStateImageBehavior = false;
             this.PlayersListView.View = System.Windows.Forms.View.List;
-            this.PlayersListView.SelectedIndexChanged += new System.EventHandler(this.PlayersListView_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -185,6 +186,7 @@ namespace FloresOlderr_Assignment2
             this.SearchGuildTextBox.Name = "SearchGuildTextBox";
             this.SearchGuildTextBox.Size = new System.Drawing.Size(118, 20);
             this.SearchGuildTextBox.TabIndex = 10;
+            this.SearchGuildTextBox.TextChanged += new System.EventHandler(this.SearchGuildTextBox_TextChanged);
             // 
             // groupBox1
             // 
@@ -206,6 +208,7 @@ namespace FloresOlderr_Assignment2
             // 
             // GuildsListView
             // 
+            this.GuildsListView.HideSelection = false;
             this.GuildsListView.LabelWrap = false;
             this.GuildsListView.Location = new System.Drawing.Point(701, 104);
             this.GuildsListView.Name = "GuildsListView";
@@ -213,6 +216,7 @@ namespace FloresOlderr_Assignment2
             this.GuildsListView.TabIndex = 12;
             this.GuildsListView.UseCompatibleStateImageBehavior = false;
             this.GuildsListView.View = System.Windows.Forms.View.List;
+            this.GuildsListView.SelectedIndexChanged += new System.EventHandler(this.GuildsListView_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -339,7 +343,7 @@ namespace FloresOlderr_Assignment2
             // 
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.button7);
+            this.groupBox3.Controls.Add(this.AddGuildButton);
             this.groupBox3.Controls.Add(this.GuildTypeComboBox);
             this.groupBox3.Controls.Add(this.ServerComboBox);
             this.groupBox3.Controls.Add(this.label9);
@@ -369,14 +373,15 @@ namespace FloresOlderr_Assignment2
             this.label11.TabIndex = 5;
             this.label11.Text = "Server";
             // 
-            // button7
+            // AddGuildButton
             // 
-            this.button7.Location = new System.Drawing.Point(264, 34);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 4;
-            this.button7.Text = "Add Guild";
-            this.button7.UseVisualStyleBackColor = true;
+            this.AddGuildButton.Location = new System.Drawing.Point(264, 34);
+            this.AddGuildButton.Name = "AddGuildButton";
+            this.AddGuildButton.Size = new System.Drawing.Size(75, 23);
+            this.AddGuildButton.TabIndex = 4;
+            this.AddGuildButton.Text = "Add Guild";
+            this.AddGuildButton.UseVisualStyleBackColor = true;
+            this.AddGuildButton.Click += new System.EventHandler(this.AddGuildButton_Click);
             // 
             // GuildTypeComboBox
             // 
@@ -432,12 +437,15 @@ namespace FloresOlderr_Assignment2
             // OutputListView
             // 
             this.OutputListView.AccessibleName = "";
+            this.OutputListView.ImeMode = System.Windows.Forms.ImeMode.Katakana;
             this.OutputListView.LabelWrap = false;
             this.OutputListView.Location = new System.Drawing.Point(12, 466);
             this.OutputListView.Name = "OutputListView";
             this.OutputListView.Size = new System.Drawing.Size(1021, 125);
             this.OutputListView.TabIndex = 17;
+            this.OutputListView.TileSize = new System.Drawing.Size(250, 30);
             this.OutputListView.UseCompatibleStateImageBehavior = false;
+            this.OutputListView.View = System.Windows.Forms.View.List;
             // 
             // Form1
             // 
@@ -495,7 +503,7 @@ namespace FloresOlderr_Assignment2
         private System.Windows.Forms.ComboBox ServerComboBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox GuildNameTextBox;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button AddGuildButton;
         private System.Windows.Forms.ComboBox GuildTypeComboBox;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListView OutputListView;

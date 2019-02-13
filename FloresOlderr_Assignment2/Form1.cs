@@ -13,8 +13,6 @@ using System.IO;
 namespace FloresOlderr_Assignment2
 {
 
-    //public enum Race { Orc = 0, Troll = 1, Tauren = 2, Forsaken = 3 };
-
     public partial class Form1 : Form
     {
         //Lists for overall storge and retrieval throughtout the app.
@@ -195,24 +193,6 @@ namespace FloresOlderr_Assignment2
                         }
                     while (i != -1);
                     guild = objectBuffer.ToString().Trim();
-
-                    //guild = objectBuffer.ToString().Trim();
-                    //Race ra;
-                    //switch (race.Trim()) {
-                    //    case "0":
-                    //        ra = Race.Forsaken;
-                    //        break;
-                    //    case "1":
-                    //        ra = Race.Orc;
-                    //        break;
-                    //    case "2":
-                    //        ra = Race.Tauren;
-                    //        break;
-                    //    default:
-                    //        ra = Race.Troll;
-                    //        break;
-                    //}
-
                     Player P = new Player(id, name, race, classString, level, exp, guild);
                     players.Add(P);
                 }
@@ -228,7 +208,7 @@ namespace FloresOlderr_Assignment2
             string alphanumeric = digits + alphabet;
             string id = "";
             string name = "";
-            string server = "";
+            string server = ""; 
             int i = 0;
             char ch = ' ';
 
@@ -249,7 +229,6 @@ namespace FloresOlderr_Assignment2
                         }
                     while (i == -1);
                     objectBuffer.Append(ch);
-                    //Console.WriteLine("object Buffer = " + objectBuffer.ToString());
                     do
                     {
                         try
@@ -263,7 +242,6 @@ namespace FloresOlderr_Assignment2
                             break;
                         }
                     } while (i != -1);
-                    //System.Console.WriteLine("after reading the ID, obj buf = " + objectBuffer.ToString());
                     id = objectBuffer.ToString().Trim();
                     objectBuffer = new StringBuilder();
                     do
@@ -283,7 +261,6 @@ namespace FloresOlderr_Assignment2
                         try
                         {
                             ch = (char)inFile.Read();
-                            //i = alphabet.IndexOf(ch);
                             objectBuffer.Append(ch);
                         }
                         catch (IndexOutOfRangeException aioobexc)
@@ -292,7 +269,6 @@ namespace FloresOlderr_Assignment2
                         }
                     } while (ch != '-');
                     name = objectBuffer.ToString();
-                    //Console.WriteLine("naming object buffer = " + objectBuffer.ToString());
                     objectBuffer = new StringBuilder();
                     do
                     {
@@ -308,7 +284,6 @@ namespace FloresOlderr_Assignment2
                         }
                     } while (i != -1);
                     server = objectBuffer.ToString();
-                    //Console.WriteLine("id: " + id + " name: " + name + " server: " + server);
                     Guild G = new Guild(id, name, server);
                     guilds.Add(G);
                 }
@@ -335,261 +310,25 @@ namespace FloresOlderr_Assignment2
                 PlayersListView.Items.Add(p.ToString());
                 SearchPlayerTextBox.AutoCompleteCustomSource.Add(p.Name);
             }
-            //getAllPlayers();
         }
 
         public ListView OutputList { get; }
 
-        //public static List<Player> getAllPlayers()
-        //{
-        //    string alphabetUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        //    string alphabetLower = "abcdefghijklmnopqrstuvwxyz";
-        //    string digits = "1234567890";
-        //    string allPossibleChars = alphabetUpper + alphabetLower + digits;
-        //    uint GEAR_SLOTS = 14;
-        //    List<Player> player_roster = new List<Player>();
-        //    using (StreamReader inFile = new StreamReader("players.txt"))
-        //    {
-
-        //        string idString = "";
-        //        string nameString = "";
-        //        string raceString = "";
-        //        string levelString = "";
-        //        string expString = "";
-        //        string guildString = "";
-        //        uint[] gear = new uint[GEAR_SLOTS];
-        //        List<uint> inventory = new List<uint>();
-
-        //        bool readingID = false;
-        //        bool readingName = false;
-        //        bool readingRace = false;
-        //        bool readingLevel = false;
-        //        bool readingExp = false;
-        //        bool readingGuild = false;
-        //        bool readingGear0 = false, readingGear1 = false, readingGear2 = false, readingGear3 = false, readingGear4 = false, readingGear5 = false, readingGear6 = false, readingGear7 = false, readingGear8 = false, readingGear9 = false, readingGear10 = false, readingGear11 = false, readingGear12 = false, readingGear13 = false;
-
-        //        Race race;
-
-        //        readingID = true;
-        //        StringBuilder variableBuilder = new StringBuilder();
-        //        uint g_index = 0;
-        //        while (!inFile.EndOfStream)
-        //        {
-        //            char ch = (char)inFile.Read();
-        //            int index_of = allPossibleChars.IndexOf(ch);
-        //            if (index_of == -1)
-        //            {
-        //                if (readingID)
-        //                {
-        //                    idString = variableBuilder.ToString();
-        //                    variableBuilder = new StringBuilder();
-        //                    readingID = false;
-        //                    readingName = true;
-        //                }
-        //                else if (readingName)
-        //                {
-        //                    nameString = variableBuilder.ToString();
-        //                    variableBuilder = new StringBuilder();
-        //                    readingName = false;
-        //                    readingRace = true;
-        //                }
-        //                else if (readingRace)
-        //                {
-        //                    raceString = variableBuilder.ToString();
-        //                    variableBuilder = new StringBuilder();
-        //                    readingRace = false;
-        //                    readingLevel = true;
-        //                }
-        //                else if (readingLevel)
-        //                {
-        //                    levelString = variableBuilder.ToString();
-        //                    variableBuilder = new StringBuilder();
-        //                    readingLevel = false;
-        //                    readingExp = true;
-        //                }
-        //                else if (readingExp)
-        //                {
-        //                    expString = variableBuilder.ToString();
-        //                    variableBuilder = new StringBuilder();
-        //                    readingExp = false;
-        //                    readingGuild = true;
-        //                }
-        //                else if (readingGuild)
-        //                {
-        //                    guildString = variableBuilder.ToString();
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGuild = false;
-        //                    readingGear0 = true;
-        //                }
-        //                else if (readingGear0)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear0 = false;
-        //                    readingGear1 = true;
-        //                }
-        //                else if (readingGear1)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear1 = false;
-        //                    readingGear2 = true;
-        //                }
-        //                else if (readingGear2)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear2 = false;
-        //                    readingGear3 = true;
-        //                }
-        //                else if (readingGear3)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear3 = false;
-        //                    readingGear4 = true;
-        //                }
-        //                else if (readingGear4)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear4 = false;
-        //                    readingGear5 = true;
-        //                }
-        //                else if (readingGear5)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear5 = false;
-        //                    readingGear6 = true;
-        //                }
-        //                else if (readingGear6)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear6 = false;
-        //                    readingGear7 = true;
-        //                }
-        //                else if (readingGear7)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear7 = false;
-        //                    readingGear8 = true;
-        //                }
-        //                else if (readingGear8)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear8 = false;
-        //                    readingGear9 = true;
-        //                }
-        //                else if (readingGear9)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear9 = false;
-        //                    readingGear10 = true;
-        //                }
-        //                else if (readingGear10)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear10 = false;
-        //                    readingGear11 = true;
-        //                }
-        //                else if (readingGear11)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear11 = false;
-        //                    readingGear12 = true;
-        //                }
-        //                else if (readingGear12)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear12 = false;
-        //                    readingGear13 = true;
-        //                }
-        //                else if (readingGear13)
-        //                {
-        //                    gear[g_index++] = Convert.ToUInt32(variableBuilder.ToString());
-        //                    variableBuilder = new StringBuilder();
-        //                    readingGear13 = false;
-        //                    switch (Convert.ToUInt32(raceString))
-        //                    {
-        //                        case 0:
-        //                            race = Race.Orc;
-        //                            break;
-        //                        case 1:
-        //                            race = Race.Troll;
-        //                            break;
-        //                        case 2:
-        //                            race = Race.Tauren;
-        //                            break;
-        //                        default:
-        //                            race = Race.Forsaken;
-        //                            break;
-        //                    }
-        //                    player_roster.Add(new Player(Convert.ToUInt32(idString), nameString, race, Convert.ToUInt32(levelString), Convert.ToUInt32(expString), Convert.ToUInt32(guildString), gear, inventory));
-        //                    gear = new uint[GEAR_SLOTS];
-        //                    g_index = 0;
-        //                    inFile.Read();
-        //                    readingID = true;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                variableBuilder.Append(ch);
-        //            }
-        //        }
-        //        inventory.Add(Convert.ToUInt32(variableBuilder.ToString()));
-        //        switch (Convert.ToUInt32(raceString))
-        //        {
-        //            case 0:
-        //                race = Race.Orc;
-        //                break;
-        //            case 1:
-        //                race = Race.Troll;
-        //                break;
-        //            case 2:
-        //                race = Race.Tauren;
-        //                break;
-        //            default:
-        //                race = Race.Forsaken;
-        //                break;
-        //        }
-        //        gear[g_index] = Convert.ToUInt32(variableBuilder.ToString());
-        //        player_roster.Add(new Player(Convert.ToUInt32(idString), nameString, race, Convert.ToUInt32(levelString), Convert.ToUInt32(expString), Convert.ToUInt32(guildString), gear, inventory));
-        //    }
-        //    Console.WriteLine(player_roster);
-        //    return player_roster;
-        //}
-
         private void printGuild_Click(object sender, EventArgs e)
-        {
-            // This function happens when you click on the button that says 'Print Guild Roster'. 
-            //Console.WriteLine("I will print the guild roster :)");
-            //OutputListView.Items.Add("I m inside the guild roster :)");
-            string reader = "";
-            string guildWithoutSpaces = "";
-            string[] guilds = { };
-            using (StreamReader inFile = new StreamReader(@"guilds.txt"))
+        { 
+            foreach(Guild g in guild_roster)
             {
-                string guild = "";
-                while (!inFile.EndOfStream)
+                string guild_string = getGuildString(g.ID);
+                string server = g.Server;
+                string output_heading = "Guild Listing for " + guild_string + " [" + server + "]\n";
+                OutputListView.Items.Add(output_heading);
+                OutputListView.Items.Add("-----------------------------------------------------------");
+                foreach (Player p in player_roster)
                 {
-                    reader = inFile.ReadLine().ToString();
+                    string race = getRaceString(p.Race);
+                    if (p.GuildID == g.ID)
                     {
-                        {
-                            // Code from https://stackoverflow.com/questions/7411438/remove-characters-from-c-sharp-string 
-                            guild = new string((from c in reader where char.IsWhiteSpace(c) || char.IsLetter(c) select c).ToArray());
-                            char[] ch = guild.ToCharArray();
-                            ch[0] = ' ';
-                            guildWithoutSpaces = new string(ch);
-                            OutputListView.Items.Add(guildWithoutSpaces);
-                        }
+                        OutputListView.Items.Add(String.Format("Name: {0} Race: {1} Level: {2} Guild: {3}", p.Name, race, p.Level, guild_string));
                     }
                 }
             }
@@ -637,136 +376,6 @@ namespace FloresOlderr_Assignment2
                     RoleComboBox.Items.Add("DPS");
                     break;
             }
-        }
-
-
-        //public class Player : IComparable
-        //{
-        //    private readonly string name;
-        //    private readonly Race race;
-        //    private string class_String;
-        //    private uint guildID;
-
-        //    public string Name
-        //    {
-        //        get
-        //        {
-        //            return name;
-        //        }
-        //    }
-
-        //    public Race Race
-        //    {
-        //        get
-        //        {
-        //            return race;
-        //        }
-        //    }
-
-        //    public string Class_String
-        //    {
-        //        get
-        //        {
-        //            return class_String;
-        //        }
-        //        set
-        //        {
-        //            class_String = value;
-        //        }
-        //    }
-
-        //    public uint GuildID
-        //    {
-        //        get
-        //        {
-        //            return guildID;
-        //        }
-        //        set
-        //        {
-        //            guildID = value;
-        //        }
-        //    }
-
-        //    public Player()
-        //    {
-        //        name = Name;
-        //        race = Race.Orc;
-        //        class_String = Class_String;
-        //        guildID = 475186;
-        //    }
-
-        //    public Player(string name, Race race, string class_String, uint guildId)
-        //    {
-
-        //        this.name = name;
-        //        this.race = race;
-        //        this.guildID = guildId;
-        //    }
-
-        //    // Used to sort the objects.
-        //    public int CompareTo(object alpha)
-        //    {
-        //        Player itemObject = (Player)alpha;
-        //        int value = itemObject.Name.CompareTo(this.Name);
-        //        if (value == 1)
-        //            return 1;
-        //        else if (value == -1)
-        //            return -1;
-        //        else
-        //            return 0;
-        //    }
-        //    public override string ToString()
-        //    {
-        //        string guild_string = "";
-        //        switch (guildID)
-        //        {
-        //            case 475186:
-        //                guild_string = "Knights of Cydonia";
-        //                break;
-        //            case 748513:
-        //                guild_string = "Death and Taxes";
-        //                break;
-        //            case 154794:
-        //                guild_string = "I Just Crit My Pants";
-        //                break;
-        //            case 928126:
-        //                guild_string = "What Have We Here";
-        //                break;
-        //            case 513487:
-        //                guild_string = "Big Dumb Guild";
-        //                break;
-        //            case 864722:
-        //                guild_string = "Honestly";
-        //                break;
-        //            case 185470:
-        //                guild_string = "Sacred Heart";
-        //                break;
-        //            case 726518:
-        //                guild_string = "Dont Click Rez";
-        //                break;
-        //            case 623818:
-        //                guild_string = "Less Than Three";
-        //                break;
-        //            case 019274:
-        //                guild_string = "Is Bad At This Game";
-        //                break;
-        //            case 028671:
-        //                guild_string = "Roll For Initiative";
-        //                break;
-        //            case 267481:
-        //                guild_string = "Death and Taxes";
-        //                break;
-        //        }
-        //        return string.Format("Name: {0, -20} Role: {1, -10} Class: {2, -10}", name, race, class_String);
-        //    }
-        //}
-
-
-
-
-        private void PlayersListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void AddPlayerButton_Click(object sender, EventArgs e)
@@ -825,7 +434,7 @@ namespace FloresOlderr_Assignment2
         private void SearchButton_Click(object sender, EventArgs e)
         {
             string playerName = SearchPlayerTextBox.Text.ToString();
-            string guildServer = SearchGuildTextBox.Text.ToString();
+            string guildName = SearchGuildTextBox.Text.ToString();
             bool found = false;
             foreach( Player p in player_roster)
             {
@@ -839,14 +448,11 @@ namespace FloresOlderr_Assignment2
             }
             foreach ( Guild g in guild_roster)
             {
-                if ( guildServer.Trim().Equals(g.Server.Trim()) )
+                if ( guildName.Trim().Equals(g.Name.Trim()) )
                 {
                     selected_guild = g;
-                    Console.WriteLine(g.Server + " " + guildServer);
-
                     break;
                 }
-                Console.WriteLine(g.Server + " message " + guildServer);
             }
 
             OutputListView.Clear();
@@ -858,56 +464,127 @@ namespace FloresOlderr_Assignment2
             {
                 OutputListView.Items.Add(selected_guild.ToString());
             }
-            //if(selected_player == null || selected_player.Name == "" || selected_guild == null || selected_guild.Server == "")
-            //{
-            //    OutputListView.Clear();
-            //    OutputListView.Items.Add("Nothing was a match for your filtering criteria");
-            //}
+            if (selected_player == null && selected_guild == null) // Both null 
+            {
+                // Error messge...
+                OutputListView.Clear();
+                OutputListView.Items.Add("Nothing was a match for your filtering criteria");
+            }
+
+        }
+
+        private string getGuildString(string guildId)
+        {
+            string guild_string = "";
+
+            switch (guildId)
+            {
+                case "475186":
+                    guild_string = "Knights of Cydonia";
+                    break;
+                case "748513":
+                    guild_string = "Death and Taxes";
+                    break;
+                case "154794":
+                    guild_string = "I Just Crit My Pants";
+                    break;
+                case "928126":
+                    guild_string = "What Have We Here";
+                    break;
+                case "513487":
+                    guild_string = "Big Dumb Guild";
+                    break;
+                case "864722":
+                    guild_string = "Honestly";
+                    break;
+                case "185470":
+                    guild_string = "Sacred Heart";
+                    break;
+                case "726518":
+                    guild_string = "Dont Click Rez";
+                    break;
+                case "623818":
+                    guild_string = "Less Than Three";
+                    break;
+                case "019274":
+                    guild_string = "Is Bad At This Game";
+                    break;
+                case "028671":
+                    guild_string = "Roll For Initiative";
+                    break;
+                case "267481":
+                    guild_string = "Death and Taxes";
+                    break;
+            }
+            return guild_string;
+        }
+
+        private string getRaceString(string raceId)
+        {
+            switch(raceId)
+            {
+                case "1":
+                    return "Troll";
+                case "2":
+                    return "Tauren";
+                case "3":
+                    return "Forsaken";
+                default:
+                    return "Orc";
+            }
+        }
+
+        public static string GetClass(string class_string)
+        {
+            switch (class_string)
+            {
+                case "0":
+                    return "Warrior";
+                case "1":
+                    return "Mage";
+                case "2":
+                    return "Druid";
+                case "3":
+                    return "Priest";
+                case "4":
+                    return "Warlock";
+                case "5":
+                    return "Rogue";
+                case "6":
+                    return "Palladin";
+                case "7":
+                    return "Hunter";
+                default:
+                    return "Shaman";
+            }
         }
 
         private void LeaveGuildButton_Click(object sender, EventArgs e)
         {
             string playerName = SearchPlayerTextBox.ToString();
-            string guildServer = SearchGuildTextBox.ToString();
 
             foreach (Player p in player_roster)
             {
-                if (playerName == SearchPlayerTextBox.ToString() && SearchGuildTextBox.ToString() == "" )
+                if (playerName == SearchPlayerTextBox.ToString())
                 {
-                    PlayersListView.Items.Clear();
-                    GuildsListView.Items.Clear();
+                    string guild_string = getGuildString(p.GuildID);
 
-                    PlayersListView.Items.Add(p.ToString());
-                    GuildsListView.Items.Add("Cool Guild");
-                }
-                else
-                {
-                    string errorSearch = "Nothing was a match for your filtering criteria";
-                    OutputListView.Items.Clear();
-                    OutputListView.Items.Add(errorSearch);
+                    p.GuildID = "";
+                    OutputListView.Clear();
+                    OutputListView.Items.Add(p.Name + " left guild " + guild_string);
+                    break;
                 }
             }
         }
 
         private void SearchPlayerTextBox_TextChanged(object sender, EventArgs e)
         {
-            //    List<string> player_names = new List<string>();
-            //    foreach(Player p in player_roster)
-            //    {
-            //        player_names.Add(p.Name);
-            //    }
-            //    string myString = SearchPlayerTextBox.Text;
-            //    int index = player_names.FindIndex(x => x.Equals(myString));
-
-            //    for (int i = 0; i <= PlayersListView.Items.Count -1; i++)
-            //    {
-            //        if (PlayersListView.Items[i].ToString().Contains(myString))
-            //        {
-            //            PlayersListView.SetSelected();
-            //        }
-            //    }
-            //    int index_string = PlayersListView.FindString(myString, -1);
-            //    Console.WriteLine(index);
+            PlayersListView.Clear();
+            foreach (Player p in player_roster)
+            {
+                if(p.Name.Contains(SearchPlayerTextBox.Text))
+                PlayersListView.Items.Add(String.Format("{0} {1} {2}",p.Name, GetClass(p.ClassString), p.Level));
+            }
         }
 
         private void JoinGuildButton_Click(object sender, EventArgs e)
@@ -918,29 +595,144 @@ namespace FloresOlderr_Assignment2
                 selected_player.ID = nextGuildID;
                 foreach(Player p in player_roster)
                 {
-                    OutputListView.Clear();
-                    Console.WriteLine(p.ToString());
-                    OutputListView.Items.Add(p.ToString());
+                    if (p.ID.Equals(selected_player.ID) )
+                    {
+                        p.GuildID = nextGuildID;
+                        OutputListView.Clear();
+                        OutputListView.Items.Add(p.Name + " joined " + selected_guild.Name + " - " + "[" + selected_guild.Server + "]");
+                    } 
                 }
             } catch (NullReferenceException nre)
             {
 
             }
         }
+
+        private void AddGuildButton_Click(object sender, EventArgs e)
+        {
+            Random random = new Random();
+            string id = Guild.getID() + "";
+            string name = GuildNameTextBox.Text;
+            string server = ServerComboBox.Text;
+            string type = GuildTypeComboBox.Text;
+
+            Guild guild = new Guild(id, name, server);
+            guild_roster.Add(guild);
+            GuildsListView.Items.Add(guild.ToString());
+            SearchGuildTextBox.AutoCompleteCustomSource.Add(guild.Server);
+        }
+
+     
+
+        private void SearchGuildTextBox_TextChanged(object sender, EventArgs e)
+        {
+            GuildsListView.Clear();
+            if (SearchGuildTextBox.Text.Equals(""))
+            {
+                foreach(Guild g in guild_roster)
+                {
+                    GuildsListView.Items.Add(String.Format("{0} [{1}]", g.Name, g.Server));
+                }
+                return;
+            }
+
+            foreach (Guild g in guild_roster)
+            {
+                if (g.Server.Contains(SearchGuildTextBox.Text))
+                {
+                    GuildsListView.Items.Add(String.Format("{0} [{1}]", g.Name, g.Server));
+                }
+            }
+
+        }
+
+        private void DisbandGuildButton_Click(object sender, EventArgs e)
+        {
+            string guild_Name = SearchGuildTextBox.Text.ToString();
+            bool removed = false;
+            OutputListView.Clear();
+            OutputListView.Items.Add(guild_Name);
+            do
+            {
+                removed = false;
+                foreach (Guild g in guild_roster)
+                {
+                    if (guild_Name.Trim().Equals(g.Name.Trim()))
+                    {
+                        int players_removed = 0;
+                        List<Player> removals = new List<Player>();
+                        foreach (Player p in player_roster)
+                        {
+                            if (p.GuildID == g.ID)
+                            {
+                                p.GuildID = "";
+                                removals.Add(p);
+                                ++players_removed;                              
+                            }
+                        }
+                        OutputListView.Clear();
+                        OutputListView.Items.Add(players_removed + " Players have been disbanded from " + g.Name);
+                        foreach (Player player in removals)
+                        {
+                            OutputListView.Items.Add(player.Name + player.Race + player.Level, player.GuildID);
+                        }
+                        guild_roster.Remove(g);
+                        removed = true;
+                        SearchGuildTextBox.AutoCompleteCustomSource.Remove(g.Server);
+                        break;
+                    }
+                }
+            }
+            while (removed);
+        }
+
+        private void GuildsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ( GuildsListView.SelectedItems.Count > 0)
+            {
+                for( int lcount = 0; lcount <= GuildsListView.Items.Count; lcount ++)
+                {
+                    if (GuildsListView.Items[lcount].Selected)
+                    {
+                        string text = GuildsListView.Items[lcount].Text;
+                        StringBuilder guild_name_builder = new StringBuilder();
+                        foreach(char ch in text.ToCharArray())
+                        {
+                            if (ch == '[')
+                                break;
+                            guild_name_builder.Append(ch);
+                        }
+                        string g_name = guild_name_builder.ToString().Trim();
+                        //SearchGuildTextBox = guild_name.ToString();
+                        foreach(Guild g in guild_roster)
+                        {
+                            if (g.Name.Equals(g_name))
+                            {
+                                selected_guild = g;
+                            }
+                        }
+
+                        Console.WriteLine("GUILD NAME = " + g_name);
+                        break;
+                    }
+                }
+            }
+            //foreach (Guild g in guild_roster)
+            //{
+            //    Console.WriteLine("NAMEEEEEEEEEE ====== " + g.Name + "    " + guild_name);
+            //    if (g.Name.Trim().Equals(guild_name.Trim()))
+            //    {
+            //        selected_guild = g;
+            //        SearchGuildTextBox.Text = g.Name;
+            //        Console.WriteLine("Name ====== " + g.Name);
+            //    }
+            //}
+        }
     }
-
-    /*
-         *  Josh, you may only want to copy what is inside this namespace.
-         */
-
-    /*enum Race
-    { // I don't know if this already exists.
-        Orc, Troll, Tauren, Forsaken;
-    }*/
 
     class Guild
     {
-
+        static int nextID;
         private string id;
         private string name;
         private string server;
@@ -950,6 +742,16 @@ namespace FloresOlderr_Assignment2
             this.id = id;
             this.name = name;
             this.server = server;
+
+            if (name.ToCharArray()[name.Length - 1] == '-')
+            {
+                this.name = this.name.Substring(0, this.name.Length - 1);
+            }
+        }
+
+        public static int getID()
+        {
+            return nextID++;
         }
 
         public string ID
@@ -986,17 +788,17 @@ namespace FloresOlderr_Assignment2
             {
                 server = value;
             }
-        }
+        } 
 
         public override string ToString()
         {
-            return name + "   " + server + "\n";
+            return String.Format("{0: -20} [{1: 20}]", name, server);
         }
 
     }
 
     class Player
-    { // Josh, I remodeled the player class. 
+    {
         static int nextId;
         private string id;
         private string name;
@@ -1106,9 +908,9 @@ namespace FloresOlderr_Assignment2
             }
         }
 
-        public string ToString()
+        public override string ToString()
         {
-            return name + "   " + classString + "   " +  Level;
+            return String.Format("{0: -20} {1: -20} {2: 10}", name, Form1.GetClass(classString), Level);
         }
     }
 }
