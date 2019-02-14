@@ -131,20 +131,21 @@ namespace FloresOlderr_Assignment2
             // 
             // PlayersListView
             // 
+            this.PlayersListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.PlayersListView.HideSelection = false;
             this.PlayersListView.LabelWrap = false;
-            this.PlayersListView.Location = new System.Drawing.Point(395, 100);
+            this.PlayersListView.Location = new System.Drawing.Point(395, 63);
             this.PlayersListView.Name = "PlayersListView";
-            this.PlayersListView.Size = new System.Drawing.Size(203, 296);
-            this.PlayersListView.TabIndex = 5;
+            this.PlayersListView.Size = new System.Drawing.Size(224, 372);
+            this.PlayersListView.TabIndex = 0;
             this.PlayersListView.UseCompatibleStateImageBehavior = false;
-            this.PlayersListView.View = System.Windows.Forms.View.List;
+            this.PlayersListView.View = System.Windows.Forms.View.SmallIcon;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(391, 77);
+            this.label1.Location = new System.Drawing.Point(391, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 20);
             this.label1.TabIndex = 6;
@@ -167,7 +168,6 @@ namespace FloresOlderr_Assignment2
             this.SearchPlayerTextBox.Name = "SearchPlayerTextBox";
             this.SearchPlayerTextBox.Size = new System.Drawing.Size(121, 20);
             this.SearchPlayerTextBox.TabIndex = 8;
-            this.SearchPlayerTextBox.TextChanged += new System.EventHandler(this.SearchPlayerTextBox_TextChanged);
             // 
             // label3
             // 
@@ -186,7 +186,6 @@ namespace FloresOlderr_Assignment2
             this.SearchGuildTextBox.Name = "SearchGuildTextBox";
             this.SearchGuildTextBox.Size = new System.Drawing.Size(118, 20);
             this.SearchGuildTextBox.TabIndex = 10;
-            this.SearchGuildTextBox.TextChanged += new System.EventHandler(this.SearchGuildTextBox_TextChanged);
             // 
             // groupBox1
             // 
@@ -210,19 +209,19 @@ namespace FloresOlderr_Assignment2
             // 
             this.GuildsListView.HideSelection = false;
             this.GuildsListView.LabelWrap = false;
-            this.GuildsListView.Location = new System.Drawing.Point(701, 104);
+            this.GuildsListView.Location = new System.Drawing.Point(701, 63);
             this.GuildsListView.Name = "GuildsListView";
-            this.GuildsListView.Size = new System.Drawing.Size(277, 291);
+            this.GuildsListView.Size = new System.Drawing.Size(277, 372);
             this.GuildsListView.TabIndex = 12;
             this.GuildsListView.UseCompatibleStateImageBehavior = false;
-            this.GuildsListView.View = System.Windows.Forms.View.List;
+            this.GuildsListView.View = System.Windows.Forms.View.SmallIcon;
             this.GuildsListView.SelectedIndexChanged += new System.EventHandler(this.GuildsListView_SelectedIndexChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(701, 77);
+            this.label4.Location = new System.Drawing.Point(697, 35);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 20);
             this.label4.TabIndex = 13;
@@ -437,11 +436,11 @@ namespace FloresOlderr_Assignment2
             // OutputListView
             // 
             this.OutputListView.AccessibleName = "";
-            this.OutputListView.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.OutputListView.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.OutputListView.LabelWrap = false;
-            this.OutputListView.Location = new System.Drawing.Point(12, 466);
+            this.OutputListView.Location = new System.Drawing.Point(12, 465);
             this.OutputListView.Name = "OutputListView";
-            this.OutputListView.Size = new System.Drawing.Size(1021, 125);
+            this.OutputListView.Size = new System.Drawing.Size(1021, 126);
             this.OutputListView.TabIndex = 17;
             this.OutputListView.TileSize = new System.Drawing.Size(250, 30);
             this.OutputListView.UseCompatibleStateImageBehavior = false;

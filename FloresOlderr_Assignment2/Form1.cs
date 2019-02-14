@@ -16,6 +16,8 @@ namespace FloresOlderr_Assignment2
     public partial class Form1 : Form
     {
         //Lists for overall storge and retrieval throughtout the app.
+        Dictionary<string, string> customGuilds = new Dictionary<string, string>();
+
         List<Player> player_roster = new List<Player>();
         List<Guild> guild_roster = new List<Guild>();
         Player selected_player;
@@ -189,6 +191,7 @@ namespace FloresOlderr_Assignment2
                             i = digits.IndexOf(ch);
                             objectBuffer.Append(ch);
                         } catch (IndexOutOfRangeException ioorexc) {
+                            Console.WriteLine(objectBuffer.ToString() + "reading");
                             break;
                         }
                     while (i != -1);
@@ -309,29 +312,75 @@ namespace FloresOlderr_Assignment2
             {
                 PlayersListView.Items.Add(p.ToString());
                 SearchPlayerTextBox.AutoCompleteCustomSource.Add(p.Name);
+                Console.WriteLine("My roster includes " + p.Name + " inside the guild " + getGuildString(p.GuildID));
             }
         }
 
         public ListView OutputList { get; }
 
         private void printGuild_Click(object sender, EventArgs e)
-        { 
-            foreach(Guild g in guild_roster)
+        {
+            try
             {
-                string guild_string = getGuildString(g.ID);
-                string server = g.Server;
-                string output_heading = "Guild Listing for " + guild_string + " [" + server + "]\n";
-                OutputListView.Items.Add(output_heading);
-                OutputListView.Items.Add("-----------------------------------------------------------");
-                foreach (Player p in player_roster)
+                string guild_item = GuildsListView.SelectedItems[0].Text;
+                StringBuilder guildSelectionBuilder = new StringBuilder();
+                foreach (char ch
+                in guild_item.ToCharArray())
                 {
-                    string race = getRaceString(p.Race);
-                    if (p.GuildID == g.ID)
+                    if (ch == '[')
                     {
-                        OutputListView.Items.Add(String.Format("Name: {0} Race: {1} Level: {2} Guild: {3}", p.Name, race, p.Level, guild_string));
+                        break;
+                    }
+                    guildSelectionBuilder.Append(ch);
+                }
+                string guildName = guildSelectionBuilder.ToString().Trim();
+                foreach (Guild G in guild_roster)
+                {
+                    if (G.Name.Equals(guildName))
+                    {
+                        selected_guild = G;
+                        break;
                     }
                 }
+                OutputListView.Clear();
+                List<Player> members = new List<Player>();
+                foreach (Player p in player_roster)
+                {
+                    if (p.GuildID.Equals(selected_guild.ID))
+                    {
+                        members.Add(p);
+                    }
+                }
+                OutputListView.Items.Add("Guild listing for " + selected_guild.Name + "\n");
+                foreach (Player p in members)
+                {
+                    OutputListView.Items.Add(p.ToString());
+                }
             }
+            catch (ArgumentOutOfRangeException aoorexc)
+            {
+                // 
+                //OutputListView.Clear();
+                //OutputListView.Items.Add("You need to ensure both a Player and Guild have been selected.");
+            }
+
+            //foreach (Guild g in guild_roster)
+            //{
+            //    string guild_string = getGuildString(g.ID);
+            //    string server = g.Server;
+            //    string output_heading = "Guild Listing for " + guild_string + " [" + server + "]\n";
+            //    OutputListView.Items.Add(output_heading);
+            //    //OutputListView.Items.Add("-----------------------------------------------------------------------------------------\n");
+            //    OutputListView.Items.Add(new ListViewItem("----------------------------------------------------------------\n"));
+            //    foreach (Player p in player_roster)
+            //    {
+            //        string race = getRaceString(p.Race);
+            //        if (p.GuildID == g.ID)
+            //        {
+            //            OutputListView.Items.Add(String.Format("\nName: {0, -20} Race: {1, -20} Level: {2, 20} Guild: {3, 20}\n", p.Name, race, p.Level, guild_string));
+            //        }
+            //    }
+            //}
         }
 
         private void selectClass_ComboBox(object sender, EventArgs e)
@@ -431,27 +480,47 @@ namespace FloresOlderr_Assignment2
             PlayersListView.Items.Add(player.ToString());
         }
 
+
+        // This method just filters the ListViews
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            string playerName = SearchPlayerTextBox.Text.ToString();
-            string guildName = SearchGuildTextBox.Text.ToString();
-            bool found = false;
-            foreach( Player p in player_roster)
+            PlayersListView.Clear();
+            GuildsListView.Clear();
+            string player_filter = SearchPlayerTextBox.Text.Trim();
+            if (!player_filter.Equals(""))
             {
-               
-                if ( playerName.Equals(p.Name) )
+                foreach (Player p in player_roster)
                 {
-                    selected_player = p;
-
-                    break;
+                    if (p.Name.ToUpper().Contains(player_filter.ToUpper()))
+                    {
+                        PlayersListView.Items.Add(p.ToString());
+                    }
                 }
             }
-            foreach ( Guild g in guild_roster)
+            else
             {
-                if ( guildName.Trim().Equals(g.Name.Trim()) )
+                foreach (Player p in player_roster)
                 {
-                    selected_guild = g;
-                    break;
+                    PlayersListView.Items.Add(p.ToString());
+                }
+            }
+            string guild_filter = SearchGuildTextBox.Text.Trim();
+
+            if (!guild_filter.Equals(""))
+            { 
+                foreach (Guild g in guild_roster)
+                {
+                    if (g.Server.ToUpper().Contains(guild_filter.ToUpper()))
+                    {
+                        GuildsListView.Items.Add(g.ToString());
+                    }
+                }
+            }
+            else
+            {
+                foreach (Guild g in guild_roster)
+                {
+                    GuildsListView.Items.Add(g.ToString());
                 }
             }
 
@@ -515,6 +584,16 @@ namespace FloresOlderr_Assignment2
                 case "267481":
                     guild_string = "Death and Taxes";
                     break;
+                default:
+                    try
+                    {
+                        guild_string = customGuilds[guildId];
+                    }
+                    catch(KeyNotFoundException knfe)
+                    {
+                        guild_string = "";
+                    }
+                    break;
             }
             return guild_string;
         }
@@ -561,50 +640,144 @@ namespace FloresOlderr_Assignment2
 
         private void LeaveGuildButton_Click(object sender, EventArgs e)
         {
-            string playerName = SearchPlayerTextBox.ToString();
 
-            foreach (Player p in player_roster)
+            int count = PlayersListView.SelectedItems.Count;
+            int i = 0;
+            OutputListView.Clear();
+
+            while (i < count)
             {
-                if (playerName == SearchPlayerTextBox.ToString())
+                try
                 {
-                    string guild_string = getGuildString(p.GuildID);
+                    string player_item = PlayersListView.SelectedItems[i].Text;
 
-                    p.GuildID = "";
-                    OutputListView.Clear();
-                    OutputListView.Items.Add(p.Name + " left guild " + guild_string);
-                    break;
+                    StringBuilder playerSelectionBuilder = new StringBuilder();
+
+                    foreach (char ch in player_item.ToCharArray())
+                    {
+                        if (ch == ' ')
+
+                        {
+
+                            break;
+                        }
+                        playerSelectionBuilder.Append(ch);
+                    }
+
+                    string playerName = playerSelectionBuilder.ToString().Trim();
+
+                    foreach (Player P in player_roster)
+                    {
+                        if (P.Name.Equals(playerName))
+                        {
+                            selected_player = P;
+
+                            break;
+                        }
+                    }
+                    string original_guild = getGuildString(selected_player.GuildID);
+
+                    selected_player.GuildID = "";
+
+                   OutputListView.Items.Add(selected_player.Name + " has left " + original_guild + "\n");
                 }
+                catch (ArgumentOutOfRangeException aoorexc)
+                {
+                    // 
+                    OutputListView.Clear();
+                    OutputListView.Items.Add("You need to ensure a Player has been selected.");
+                }
+                i++;
             }
+
+            //string playerName = SearchPlayerTextBox.ToString();
+
+            //foreach (Player p in player_roster)
+            //{
+            //    if (playerName == SearchPlayerTextBox.ToString())
+            //    {
+            //        string guild_string = getGuildString(p.GuildID);
+
+            //        p.GuildID = "";
+            //        OutputListView.Clear();
+            //        OutputListView.Items.Add(p.Name + " left guild " + guild_string);
+            //        break;
+            //    }
+            //}
         }
 
-        private void SearchPlayerTextBox_TextChanged(object sender, EventArgs e)
-        {
-            PlayersListView.Clear();
-            foreach (Player p in player_roster)
-            {
-                if(p.Name.Contains(SearchPlayerTextBox.Text))
-                PlayersListView.Items.Add(String.Format("{0} {1} {2}",p.Name, GetClass(p.ClassString), p.Level));
-            }
-        }
+        //private void SearchPlayerTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    PlayersListView.Clear();
+        //    foreach (Player p in player_roster)
+        //    {
+        //        if(p.Name.Contains(SearchPlayerTextBox.Text))
+        //        PlayersListView.Items.Add(p.ToString());
+        //    }
+        //}
 
         private void JoinGuildButton_Click(object sender, EventArgs e)
         {
             try
             {
-                string nextGuildID = selected_guild.ID;
-                selected_player.ID = nextGuildID;
-                foreach(Player p in player_roster)
-                {
-                    if (p.ID.Equals(selected_player.ID) )
-                    {
-                        p.GuildID = nextGuildID;
-                        OutputListView.Clear();
-                        OutputListView.Items.Add(p.Name + " joined " + selected_guild.Name + " - " + "[" + selected_guild.Server + "]");
-                    } 
-                }
-            } catch (NullReferenceException nre)
-            {
+                string player_item = PlayersListView.SelectedItems[0].Text;
 
+                string guild_item = GuildsListView.SelectedItems[0].Text;
+
+                StringBuilder playerSelectionBuilder = new StringBuilder();
+
+                foreach (char ch in player_item.ToCharArray())
+                {
+                    if (ch == ' ')
+
+                    {
+
+                        break;
+                    }
+                    playerSelectionBuilder.Append(ch);
+                }
+
+                string playerName = playerSelectionBuilder.ToString().Trim();
+
+                foreach (Player P in player_roster)
+                {
+                    if (P.Name.Equals(playerName))
+                    {
+                        selected_player = P;
+
+                        break;
+                    }
+                }
+                StringBuilder guildSelectionBuilder = new StringBuilder();
+                foreach (char ch
+                in guild_item.ToCharArray())
+                {
+                    if (ch == '[')
+                    {
+                        break;
+                    }
+                    guildSelectionBuilder.Append(ch);
+                }
+                string guildName = guildSelectionBuilder.ToString().Trim();
+                foreach (Guild G
+                in guild_roster)
+                {
+                    if (G.Name.Equals(guildName))
+                    {
+                        selected_guild = G;
+                        break;
+                    }
+                }
+                OutputListView.Clear();
+                Console.WriteLine("Got the players/guilds : " + selected_player.Name + "  " + selected_guild.Name);
+                selected_player.GuildID = selected_guild.ID;
+                OutputListView.Items.Add(selected_player.Name + " has joined " + selected_guild.Name + "\n");
+            }
+            catch (ArgumentOutOfRangeException aoorexc)
+            {
+                // 
+                OutputListView.Clear();
+                OutputListView.Items.Add("You need to ensure both a Player and Guild have been selected.");
             }
         }
 
@@ -620,70 +793,140 @@ namespace FloresOlderr_Assignment2
             guild_roster.Add(guild);
             GuildsListView.Items.Add(guild.ToString());
             SearchGuildTextBox.AutoCompleteCustomSource.Add(guild.Server);
+            customGuilds.Add(id, name);
         }
 
      
 
-        private void SearchGuildTextBox_TextChanged(object sender, EventArgs e)
-        {
-            GuildsListView.Clear();
-            if (SearchGuildTextBox.Text.Equals(""))
-            {
-                foreach(Guild g in guild_roster)
-                {
-                    GuildsListView.Items.Add(String.Format("{0} [{1}]", g.Name, g.Server));
-                }
-                return;
-            }
+        //private void SearchGuildTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    GuildsListView.Clear();
+        //    if (SearchGuildTextBox.Text.Equals(""))
+        //    {
+        //        foreach(Guild g in guild_roster)
+        //        {
+        //            GuildsListView.Items.Add(g.ToString());
+        //        }
+        //        return;
+        //    }
 
-            foreach (Guild g in guild_roster)
-            {
-                if (g.Server.Contains(SearchGuildTextBox.Text))
-                {
-                    GuildsListView.Items.Add(String.Format("{0} [{1}]", g.Name, g.Server));
-                }
-            }
+        //    foreach (Guild g in guild_roster)
+        //    {
+        //        if (g.Server.Contains(SearchGuildTextBox.Text))
+        //        {
+        //            GuildsListView.Items.Add(g.ToString());
+        //        }
+        //    }
 
-        }
+        //}
 
         private void DisbandGuildButton_Click(object sender, EventArgs e)
         {
-            string guild_Name = SearchGuildTextBox.Text.ToString();
-            bool removed = false;
-            OutputListView.Clear();
-            OutputListView.Items.Add(guild_Name);
-            do
+
+            try
             {
-                removed = false;
-                foreach (Guild g in guild_roster)
+                string guild_item = GuildsListView.SelectedItems[0].Text;
+                StringBuilder guildSelectionBuilder = new StringBuilder();
+                foreach (char ch
+                in guild_item.ToCharArray())
                 {
-                    if (guild_Name.Trim().Equals(g.Name.Trim()))
+                    if (ch == '[')
                     {
-                        int players_removed = 0;
-                        List<Player> removals = new List<Player>();
-                        foreach (Player p in player_roster)
-                        {
-                            if (p.GuildID == g.ID)
-                            {
-                                p.GuildID = "";
-                                removals.Add(p);
-                                ++players_removed;                              
-                            }
-                        }
-                        OutputListView.Clear();
-                        OutputListView.Items.Add(players_removed + " Players have been disbanded from " + g.Name);
-                        foreach (Player player in removals)
-                        {
-                            OutputListView.Items.Add(player.Name + player.Race + player.Level, player.GuildID);
-                        }
-                        guild_roster.Remove(g);
-                        removed = true;
-                        SearchGuildTextBox.AutoCompleteCustomSource.Remove(g.Server);
                         break;
                     }
+                    guildSelectionBuilder.Append(ch);
+                }
+                string guildName = guildSelectionBuilder.ToString().Trim();
+                foreach (Guild G in guild_roster)
+                {
+                    if (G.Name.Equals(guildName))
+                    {
+                        selected_guild = G;
+                        break;
+                    }
+                }  
+                OutputListView.Clear();
+                int players_removed = 0;
+                List<Player> removals = new List<Player>();
+                foreach (Player p in player_roster)
+                {
+                    if (p.GuildID.Equals(selected_guild.ID))
+                    {
+                        p.GuildID = "";
+                        removals.Add(p);
+                        players_removed++;
+                        Console.WriteLine(p.Name + " is leaving " + selected_guild.Name);
+                    }
+                }
+                bool removed;
+                do
+                {
+                    removed = false;
+                    foreach (Guild G in guild_roster)
+                    {
+                        if (G.ID.Equals(selected_guild.ID))
+                        {
+                            removed = true;
+                            guild_roster.Remove(G);
+                            break;
+                        }
+                    }
+                }
+                while (removed);
+                OutputListView.Items.Add(players_removed + " player have been disbanded from " + selected_guild.Name);
+                foreach (Player p in removals)
+                {
+                    OutputListView.Items.Add(p.ToString());
+                }
+                GuildsListView.Clear();
+                foreach(Guild G in guild_roster)
+                {
+                    GuildsListView.Items.Add(G.ToString());
                 }
             }
-            while (removed);
+            catch (ArgumentOutOfRangeException aoorexc)
+            {
+                // 
+                //OutputListView.Clear();
+                //OutputListView.Items.Add("You need to ensure both a Player and Guild have been selected.");
+            }
+
+            //string guild_Name = SearchGuildTextBox.Text.ToString();
+            //bool removed = false;
+            //OutputListView.Clear();
+            //OutputListView.Items.Add(guild_Name);
+            //do
+            //{
+            //    removed = false;
+            //    foreach (Guild g in guild_roster)
+            //    {
+            //        if (guild_Name.Trim().Equals(g.Name.Trim()))
+            //        {
+            //            int players_removed = 0;
+            //            List<Player> removals = new List<Player>();
+            //            foreach (Player p in player_roster)
+            //            {
+            //                if (p.GuildID == g.ID)
+            //                {
+            //                    p.GuildID = "";
+            //                    removals.Add(p);
+            //                    ++players_removed;                              
+            //                }
+            //            }
+            //            OutputListView.Clear();
+            //            OutputListView.Items.Add(players_removed + " Players have been disbanded from " + g.Name);
+            //            foreach (Player player in removals)
+            //            {
+            //                OutputListView.Items.Add(player.Name + player.Race + player.Level, player.GuildID);
+            //            }
+            //            guild_roster.Remove(g);
+            //            removed = true;
+            //            SearchGuildTextBox.AutoCompleteCustomSource.Remove(g.Server);
+            //            break;
+            //        }
+            //    }
+            //}
+            //while (removed);
         }
 
         private void GuildsListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -711,22 +954,10 @@ namespace FloresOlderr_Assignment2
                                 selected_guild = g;
                             }
                         }
-
-                        Console.WriteLine("GUILD NAME = " + g_name);
                         break;
                     }
                 }
             }
-            //foreach (Guild g in guild_roster)
-            //{
-            //    Console.WriteLine("NAMEEEEEEEEEE ====== " + g.Name + "    " + guild_name);
-            //    if (g.Name.Trim().Equals(guild_name.Trim()))
-            //    {
-            //        selected_guild = g;
-            //        SearchGuildTextBox.Text = g.Name;
-            //        Console.WriteLine("Name ====== " + g.Name);
-            //    }
-            //}
         }
     }
 
@@ -792,6 +1023,7 @@ namespace FloresOlderr_Assignment2
 
         public override string ToString()
         {
+
             return String.Format("{0: -20} [{1: 20}]", name, server);
         }
 
@@ -818,7 +1050,7 @@ namespace FloresOlderr_Assignment2
             this.exp = exp;
             this.guildID = guildID;
         }
-
+        
         public static int getID()
         {
             return nextId++;
@@ -910,7 +1142,9 @@ namespace FloresOlderr_Assignment2
 
         public override string ToString()
         {
-            return String.Format("{0: -20} {1: -20} {2: 10}", name, Form1.GetClass(classString), Level);
+            StringBuilder stringBuilder = new StringBuilder(String.Format("{0, -13} {1, 12} {2, 2}", name, Form1.GetClass(classString), Level));
+
+            return stringBuilder.ToString();
         }
     }
 }
