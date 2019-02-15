@@ -379,7 +379,7 @@ namespace FloresOlderr_Assignment2
                 OutputListView.Items.Add("--------------------------------------------------------------------------------------------\n");
                 foreach (Player p in members)
                 {
-                    StringBuilder outputBuilder = new StringBuilder(String.Format("\nName: {0, -20} Race: {1, -20} Level: {2, -5} Guild: {3, 20}-{4} \n", p.Name, getRaceString(p.Race), p.Level, getGuildString(p.GuildID), selected_guild));
+                    StringBuilder outputBuilder = new StringBuilder(String.Format("\nName: {0, -16} Race: {1, -8} Level: {2, -2} Guild: {3, 30} \n", p.Name, getRaceString(p.Race), p.Level,  selected_guild));
                     OutputListView.Items.Add(outputBuilder.ToString());
                 }
             }
@@ -815,7 +815,7 @@ namespace FloresOlderr_Assignment2
                 OutputListView.Clear();
                 Console.WriteLine("Got the players/guilds : " + selected_player.Name + "  " + selected_guild.Name);
                 selected_player.GuildID = selected_guild.ID;
-                OutputListView.Items.Add(selected_player.Name + " has joined " + selected_guild.Name + "\n");
+                OutputListView.Items.Add(selected_player.Name + " has joined " + selected_guild.Name + "-" + selected_guild.Server + "! \n");
             }
             catch (ArgumentOutOfRangeException aoorexc)
             {
