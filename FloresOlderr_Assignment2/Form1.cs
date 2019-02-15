@@ -371,22 +371,20 @@ namespace FloresOlderr_Assignment2
                     }
                 }
               
-                StringBuilder header_text = new StringBuilder(String.Format("Guild Listing for {0, -30} [{1}] \n", selected_guild.Name, selected_guild.Server.ToString()));
+                StringBuilder header_text = new StringBuilder(String.Format("Guild Listing for {0, -30}      [{1}] \n", selected_guild.Name, selected_guild.Server.ToString()));
                
                 OutputListView.Items.Add(header_text.ToString());
                 members.Sort((x, y) => x.Name.CompareTo(y.Name));
-                OutputListView.Items.Add("------------------------------------------------------------------------------------------\n");
+                OutputListView.Items.Add("--------------------------------------------------------------------------------------------\n");
                 foreach (Player p in members)
                 {
-                    StringBuilder outputBuilder = new StringBuilder(String.Format("\nName: {0} Race: {1, -20} Level: {2, -2} Guild: {3, 20}-{4} \n", p.Name, getRaceString(p.Race), p.Level, getGuildString(p.GuildID), selected_guild));
+                    StringBuilder outputBuilder = new StringBuilder(String.Format("\nName: {0, -20} Race: {1, -20} Level: {2, -5} Guild: {3, 20}-{4} \n", p.Name, getRaceString(p.Race), p.Level, getGuildString(p.GuildID), selected_guild));
                     OutputListView.Items.Add(outputBuilder.ToString());
                 }
             }
             catch (ArgumentOutOfRangeException aoorexc)
             {
                 // 
-                //OutputListView.Clear();
-                //OutputListView.Items.Add("You need to ensure both a Player and Guild have been selected.");
             }
         }
 
@@ -441,7 +439,7 @@ namespace FloresOlderr_Assignment2
             string guildId = "";
             string name = PlayerNameTextBox.Text;
             string race = RaceComboBox.Text;
-            string class_String = ClassComboBox.Text;
+            string class_String = ClassComboBox.SelectedItem.ToString();
             string role = RoleComboBox.Text;
             switch(random.Next(0, 12))
             {
@@ -482,7 +480,7 @@ namespace FloresOlderr_Assignment2
                     guildId = "267481";
                     break;
             }
-            Player player = new Player(id, name, getRaceString(race), GetClass(class_String), "0", "0", guildId);
+            Player player = new Player(id, name, race, class_String, "0", "0", guildId);
             player_roster.Add(player);
             PlayersListView.Items.Add(player.ToString());
         }
@@ -615,6 +613,12 @@ namespace FloresOlderr_Assignment2
                     return "Tauren";
                 case "3":
                     return "Forsaken";
+                case "Troll":
+                    return "Troll";
+                case "Tauren":
+                    return "Tauren";
+                case "Forsaken":
+                    return "Forsaken";
                 default:
                     return "Orc";
             }
@@ -637,8 +641,24 @@ namespace FloresOlderr_Assignment2
                 case "5":
                     return "Rogue";
                 case "6":
-                    return "Palladin";
+                    return "Paladin";
                 case "7":
+                    return "Hunter";
+                case "Warrior":
+                    return "Warrior";
+                case "Mage":
+                    return "Mage";
+                case "Druid":
+                    return "Druid";
+                case "Priest":
+                    return "Priest";
+                case "Warlock":
+                    return "Warlock";
+                case "Rogue":
+                    return "Rogue";
+                case "Paladin":
+                    return "Paladin";
+                case "Hunter":
                     return "Hunter";
                 default:
                     return "Shaman";
@@ -845,46 +865,7 @@ namespace FloresOlderr_Assignment2
             catch (ArgumentOutOfRangeException aoorexc)
             {
                 // 
-                //OutputListView.Clear();
-                //OutputListView.Items.Add("You need to ensure both a Player and Guild have been selected.");
             }
-
-            //string guild_Name = SearchGuildTextBox.Text.ToString();
-            //bool removed = false;
-            //OutputListView.Clear();
-            //OutputListView.Items.Add(guild_Name);
-            //do
-            //{
-            //    removed = false;
-            //    foreach (Guild g in guild_roster)
-            //    {
-            //        if (guild_Name.Trim().Equals(g.Name.Trim()))
-            //        {
-            //            int players_removed = 0;
-            //            List<Player> removals = new List<Player>();
-            //            foreach (Player p in player_roster)
-            //            {
-            //                if (p.GuildID == g.ID)
-            //                {
-            //                    p.GuildID = "";
-            //                    removals.Add(p);
-            //                    ++players_removed;                              
-            //                }
-            //            }
-            //            OutputListView.Clear();
-            //            OutputListView.Items.Add(players_removed + " Players have been disbanded from " + g.Name);
-            //            foreach (Player player in removals)
-            //            {
-            //                OutputListView.Items.Add(player.Name + player.Race + player.Level, player.GuildID);
-            //            }
-            //            guild_roster.Remove(g);
-            //            removed = true;
-            //            SearchGuildTextBox.AutoCompleteCustomSource.Remove(g.Server);
-            //            break;
-            //        }
-            //    }
-            //}
-            //while (removed);
         }
 
         private void GuildsListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -1111,7 +1092,7 @@ namespace FloresOlderr_Assignment2
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder(String.Format("{0, -13} {1, 12} {2, 2}", name, Form1.GetClass(classString), Level));
+            StringBuilder stringBuilder = new StringBuilder(String.Format("{0, -20} {1, -16} {2, 2}", name, Form1.GetClass(classString), Level, 60));
 
             return stringBuilder.ToString();
         }
