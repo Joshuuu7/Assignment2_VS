@@ -371,7 +371,6 @@ namespace FloresOlderr_Assignment2
                         members.Add(p);
                     }
                 }
-              
                 StringBuilder header_text = new StringBuilder(String.Format("Guild Listing for {0, -30}      [{1}] \n", selected_guild.Name, selected_guild.Server.ToString()));
                
                 OutputListView.Items.Add(header_text.ToString());
@@ -379,8 +378,21 @@ namespace FloresOlderr_Assignment2
                 OutputListView.Items.Add("--------------------------------------------------------------------------------------------\n");
                 foreach (Player p in members)
                 {
-                    StringBuilder outputBuilder = new StringBuilder(String.Format("\nName: {0, -16} Race: {1, -8} Level: {2, -2} Guild: {3, 30} \n", p.Name, getRaceString(p.Race), p.Level,  selected_guild));
+                    StringBuilder outputBuilder = new StringBuilder(String.Format("\nName: {0, -40} Race: {1, -40} Level: {2, -10} Guild: {3, 40} \n", p.Name, getRaceString(p.Race), p.Level, selected_guild));
+
+                    ColumnHeader header = new ColumnHeader();
+                    header.Text = "";
+                    header.Name = "col1";
+                    OutputListView.Columns.Add(header);
+                    // Then
+                    OutputListView.Scrollable = true;
+                    for (int i = 0; i < this.OutputListView.Columns.Count - 1; i++)
+                        this.OutputListView.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.ColumnContent);
+                    //OutputListView.Columns[OutputListView.Columns.Count - 1].Width = -2;
+                    //OutputListView.Columns[0].Width = 800;
+                    OutputListView.View = System.Windows.Forms.View.Details;
                     OutputListView.Items.Add(outputBuilder.ToString());
+
                 }
             }
             catch (ArgumentOutOfRangeException aoorexc)
@@ -1175,7 +1187,7 @@ namespace FloresOlderr_Assignment2
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder(String.Format("{0, -20} {1, -16} {2, 2}", name, Form1.GetClass(classString), Level, 60));
+            StringBuilder stringBuilder = new StringBuilder(String.Format("{0, -15} {1, -20} {2, 2}", name, Form1.GetClass(classString), Level, 60));
 
             return stringBuilder.ToString();
         }
