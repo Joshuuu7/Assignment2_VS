@@ -435,59 +435,91 @@ namespace FloresOlderr_Assignment2
 
         private void AddPlayerButton_Click(object sender, EventArgs e)
         {
-            Random random = new Random();
-            string id = Player.getID()+ "";
-            string guildId = "";
-            string name = PlayerNameTextBox.Text;
-            string race = RaceComboBox.Text;
-            string class_String = ClassComboBox.SelectedItem.ToString();
-            string role = RoleComboBox.Text;
-            switch(random.Next(0, 12))
+            bool all_fields_selected = true;
+
+            if (PlayerNameTextBox.Text.Equals("") && all_fields_selected == true)
             {
-                case 0:
-                    guildId = "475186";
-                    break;
-                case 1:
-                    guildId = "748513";
-                    break;
-                case 2:
-                    guildId = "154793";
-                    break;
-                case 3:
-                    guildId = "928126";
-                    break;
-                case 4:
-                    guildId = "513487";
-                    break;
-                case 5:
-                    guildId = "864722";
-                    break;
-                case 6:
-                    guildId = "185470";
-                    break;
-                case 7:
-                    guildId = "726518";
-                    break;
-                case 8:
-                    guildId = "623818";
-                    break;
-                case 9:
-                    guildId = "019274";
-                    break;
-                case 10:
-                    guildId = "028671";
-                    break;
-                case 11:
-                    guildId = "267481";
-                    break;
+                all_fields_selected = false;
+                OutputListView.Clear();
+                OutputListView.Items.Add("Please enter a name.");
+
             }
-            Player player = new Player(id, name, race, class_String, "0", "0", guildId);
-            player_roster.Add(player);
-            player_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
-            PlayersListView.Clear();
-            foreach (Player p in player_roster)
+            else if (RoleComboBox.Text.Equals("") && all_fields_selected == true)
             {
-                PlayersListView.Items.Add(p.ToString());
+                all_fields_selected = false;
+                OutputListView.Clear();
+                OutputListView.Items.Add("Please chose a role.");
+            }
+            else if (RaceComboBox.Text.Equals("") && all_fields_selected == true)
+            {
+                all_fields_selected = false;
+                OutputListView.Clear();
+                OutputListView.Items.Add("Please chose a race.");
+            }
+            else if (ClassComboBox.Text.Equals("") && all_fields_selected == true)
+            {
+                all_fields_selected = false;
+                OutputListView.Clear();
+                OutputListView.Items.Add("Please chose a class.");
+            }
+            else
+            {
+                OutputListView.Clear();
+                all_fields_selected = true;
+                Random random = new Random();
+                string id = Player.getID() + "";
+                string guildId = "";
+                string name = PlayerNameTextBox.Text;
+                string race = RaceComboBox.Text;
+                string class_String = ClassComboBox.Text;
+                string role = RoleComboBox.Text;
+                switch (random.Next(0, 12))
+                {
+                    case 0:
+                        guildId = "475186";
+                        break;
+                    case 1:
+                        guildId = "748513";
+                        break;
+                    case 2:
+                        guildId = "154793";
+                        break;
+                    case 3:
+                        guildId = "928126";
+                        break;
+                    case 4:
+                        guildId = "513487";
+                        break;
+                    case 5:
+                        guildId = "864722";
+                        break;
+                    case 6:
+                        guildId = "185470";
+                        break;
+                    case 7:
+                        guildId = "726518";
+                        break;
+                    case 8:
+                        guildId = "623818";
+                        break;
+                    case 9:
+                        guildId = "019274";
+                        break;
+                    case 10:
+                        guildId = "028671";
+                        break;
+                    case 11:
+                        guildId = "267481";
+                        break;
+                }
+                Player player = new Player(id, name, race, class_String, "0", "0", guildId);
+                player_roster.Add(player);
+                player_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
+                PlayersListView.Clear();
+                foreach (Player p in player_roster)
+                {
+                    PlayersListView.Items.Add(p.ToString());
+                }
             }
         }
 
@@ -795,22 +827,46 @@ namespace FloresOlderr_Assignment2
 
         private void AddGuildButton_Click(object sender, EventArgs e)
         {
-            Random random = new Random();
-            string id = Guild.getID() + "";
-            string name = GuildNameTextBox.Text;
-            string server = ServerComboBox.Text;
-            string type = GuildTypeComboBox.Text;
+            bool all_fields_selected = true;
 
-            Guild guild = new Guild(id, name, server);
-            guild_roster.Add(guild);
-            guild_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
-            GuildsListView.Clear();
-            foreach (Guild g in guild_roster)
+            if (GuildNameTextBox.Text.Equals("") && all_fields_selected == true)
             {
-                GuildsListView.Items.Add(g.ToString());
+                all_fields_selected = false;
+                OutputListView.Clear();
+                OutputListView.Items.Add("Please enter a guild.");
             }
-            SearchGuildTextBox.AutoCompleteCustomSource.Add(guild.Server);
-            customGuilds.Add(id, name);
+            else if (ServerComboBox.Text.Equals("") && all_fields_selected == true)
+            {
+                all_fields_selected = false;
+                OutputListView.Clear();
+                OutputListView.Items.Add("Please select a server.");
+            }
+            else if (GuildTypeComboBox.Text.Equals("") && all_fields_selected == true)
+            {
+                all_fields_selected = false;
+                OutputListView.Clear();
+                OutputListView.Items.Add("Please select a guild type.");
+            }
+            else
+            {
+                all_fields_selected = true;
+                Random random = new Random();
+                string id = Guild.getID() + "";
+                string name = GuildNameTextBox.Text;
+                string server = ServerComboBox.Text;
+                string type = GuildTypeComboBox.Text;
+
+                Guild guild = new Guild(id, name, server);
+                guild_roster.Add(guild);
+                guild_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
+                GuildsListView.Clear();
+                foreach (Guild g in guild_roster)
+                {
+                    GuildsListView.Items.Add(g.ToString());
+                }
+                SearchGuildTextBox.AutoCompleteCustomSource.Add(guild.Server);
+                customGuilds.Add(id, name);
+            }  
         }
 
         private void DisbandGuildButton_Click(object sender, EventArgs e)
