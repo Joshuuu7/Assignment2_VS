@@ -131,6 +131,8 @@ namespace FloresOlderr_Assignment2
             // 
             // PlayersListView
             // 
+            this.PlayersListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.PlayersListView.AutoArrange = false;
             this.PlayersListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.PlayersListView.HideSelection = false;
             this.PlayersListView.LabelWrap = false;
@@ -207,6 +209,8 @@ namespace FloresOlderr_Assignment2
             // 
             // GuildsListView
             // 
+            this.GuildsListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.GuildsListView.AutoArrange = false;
             this.GuildsListView.HideSelection = false;
             this.GuildsListView.LabelWrap = false;
             this.GuildsListView.Location = new System.Drawing.Point(701, 63);
@@ -214,7 +218,7 @@ namespace FloresOlderr_Assignment2
             this.GuildsListView.Size = new System.Drawing.Size(277, 372);
             this.GuildsListView.TabIndex = 12;
             this.GuildsListView.UseCompatibleStateImageBehavior = false;
-            this.GuildsListView.View = System.Windows.Forms.View.SmallIcon;
+            this.GuildsListView.View = System.Windows.Forms.View.List;
             this.GuildsListView.SelectedIndexChanged += new System.EventHandler(this.GuildsListView_SelectedIndexChanged);
             // 
             // label4
@@ -436,6 +440,10 @@ namespace FloresOlderr_Assignment2
             // OutputListView
             // 
             this.OutputListView.AccessibleName = "";
+            this.OutputListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.OutputListView.AutoArrange = false;
+            this.OutputListView.FullRowSelect = true;
+            this.OutputListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.OutputListView.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.OutputListView.LabelWrap = false;
             this.OutputListView.Location = new System.Drawing.Point(12, 465);

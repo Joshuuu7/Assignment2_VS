@@ -1,4 +1,22 @@
-﻿using System;
+﻿/********************************************************************************
+ * 
+ * Programmers: Joshua Flores, Adam Olderr
+ * 
+ * Assignment Number : 2
+ * 
+ * Due Date: February 14, 2018
+ * 
+ * Class: CSCI504
+ * 
+ * Instructor: Daniel Rogness
+ * 
+ * 
+ * *******************************************************************************/
+
+
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,6 +57,7 @@ namespace FloresOlderr_Assignment2
             string guild = "";
             int i = 0;
             char ch = ' ';
+
             using (StreamReader inFile = new StreamReader("players.txt")) {
                 while (!inFile.EndOfStream) {
                     StringBuilder objectBuffer = new StringBuilder();
@@ -351,10 +370,16 @@ namespace FloresOlderr_Assignment2
                         members.Add(p);
                     }
                 }
-                OutputListView.Items.Add("Guild listing for " + selected_guild.Name + "\n");
+              
+                StringBuilder header_text = new StringBuilder(String.Format("Guild Listing for {0, -30} [{1}] \n", selected_guild.Name, selected_guild.Server.ToString()));
+               
+                OutputListView.Items.Add(header_text.ToString());
+                members.Sort((x, y) => x.Name.CompareTo(y.Name));
+                OutputListView.Items.Add("------------------------------------------------------------------------------------------\n");
                 foreach (Player p in members)
                 {
-                    OutputListView.Items.Add(p.ToString());
+                    StringBuilder outputBuilder = new StringBuilder(String.Format("\nName: {0} Race: {1, -20} Level: {2, -2} Guild: {3, 20}-{4} \n", p.Name, getRaceString(p.Race), p.Level, getGuildString(p.GuildID), selected_guild));
+                    OutputListView.Items.Add(outputBuilder.ToString());
                 }
             }
             catch (ArgumentOutOfRangeException aoorexc)
@@ -363,24 +388,6 @@ namespace FloresOlderr_Assignment2
                 //OutputListView.Clear();
                 //OutputListView.Items.Add("You need to ensure both a Player and Guild have been selected.");
             }
-
-            //foreach (Guild g in guild_roster)
-            //{
-            //    string guild_string = getGuildString(g.ID);
-            //    string server = g.Server;
-            //    string output_heading = "Guild Listing for " + guild_string + " [" + server + "]\n";
-            //    OutputListView.Items.Add(output_heading);
-            //    //OutputListView.Items.Add("-----------------------------------------------------------------------------------------\n");
-            //    OutputListView.Items.Add(new ListViewItem("----------------------------------------------------------------\n"));
-            //    foreach (Player p in player_roster)
-            //    {
-            //        string race = getRaceString(p.Race);
-            //        if (p.GuildID == g.ID)
-            //        {
-            //            OutputListView.Items.Add(String.Format("\nName: {0, -20} Race: {1, -20} Level: {2, 20} Guild: {3, 20}\n", p.Name, race, p.Level, guild_string));
-            //        }
-            //    }
-            //}
         }
 
         private void selectClass_ComboBox(object sender, EventArgs e)
@@ -475,7 +482,7 @@ namespace FloresOlderr_Assignment2
                     guildId = "267481";
                     break;
             }
-            Player player = new Player(id, name, race, class_String, "0", "0", guildId);
+            Player player = new Player(id, name, getRaceString(race), GetClass(class_String), "0", "0", guildId);
             player_roster.Add(player);
             PlayersListView.Items.Add(player.ToString());
         }
@@ -689,39 +696,14 @@ namespace FloresOlderr_Assignment2
                 }
                 i++;
             }
-
-            //string playerName = SearchPlayerTextBox.ToString();
-
-            //foreach (Player p in player_roster)
-            //{
-            //    if (playerName == SearchPlayerTextBox.ToString())
-            //    {
-            //        string guild_string = getGuildString(p.GuildID);
-
-            //        p.GuildID = "";
-            //        OutputListView.Clear();
-            //        OutputListView.Items.Add(p.Name + " left guild " + guild_string);
-            //        break;
-            //    }
-            //}
         }
-
-        //private void SearchPlayerTextBox_TextChanged(object sender, EventArgs e)
-        //{
-        //    PlayersListView.Clear();
-        //    foreach (Player p in player_roster)
-        //    {
-        //        if(p.Name.Contains(SearchPlayerTextBox.Text))
-        //        PlayersListView.Items.Add(p.ToString());
-        //    }
-        //}
 
         private void JoinGuildButton_Click(object sender, EventArgs e)
         {
             try
             {
                 string player_item = PlayersListView.SelectedItems[0].Text;
-
+                
                 string guild_item = GuildsListView.SelectedItems[0].Text;
 
                 StringBuilder playerSelectionBuilder = new StringBuilder();
@@ -795,30 +777,6 @@ namespace FloresOlderr_Assignment2
             SearchGuildTextBox.AutoCompleteCustomSource.Add(guild.Server);
             customGuilds.Add(id, name);
         }
-
-     
-
-        //private void SearchGuildTextBox_TextChanged(object sender, EventArgs e)
-        //{
-        //    GuildsListView.Clear();
-        //    if (SearchGuildTextBox.Text.Equals(""))
-        //    {
-        //        foreach(Guild g in guild_roster)
-        //        {
-        //            GuildsListView.Items.Add(g.ToString());
-        //        }
-        //        return;
-        //    }
-
-        //    foreach (Guild g in guild_roster)
-        //    {
-        //        if (g.Server.Contains(SearchGuildTextBox.Text))
-        //        {
-        //            GuildsListView.Items.Add(g.ToString());
-        //        }
-        //    }
-
-        //}
 
         private void DisbandGuildButton_Click(object sender, EventArgs e)
         {
@@ -1138,6 +1096,17 @@ namespace FloresOlderr_Assignment2
             {
                 guildID = value;
             }
+        }
+        public int CompareTo(object alpha)
+        {
+            Player itemObject = (Player)alpha;
+            int value = itemObject.Name.CompareTo(this.Name);
+            if (value == 1)
+                return 1;
+            else if (value == -1)
+                return -1;
+            else
+                return 0;
         }
 
         public override string ToString()
