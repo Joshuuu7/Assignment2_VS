@@ -219,6 +219,7 @@ namespace FloresOlderr_Assignment2
                     players.Add(P);
                 }
             }
+            players.Sort((x, y) => x.Name.CompareTo(y.Name));
             return players;
         }
 
@@ -310,7 +311,7 @@ namespace FloresOlderr_Assignment2
                     guilds.Add(G);
                 }
             }
-
+            guilds.Sort((x, y) => x.Name.CompareTo(y.Name));
             return guilds;
         }
 
@@ -482,7 +483,12 @@ namespace FloresOlderr_Assignment2
             }
             Player player = new Player(id, name, race, class_String, "0", "0", guildId);
             player_roster.Add(player);
-            PlayersListView.Items.Add(player.ToString());
+            player_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
+            PlayersListView.Clear();
+            foreach (Player p in player_roster)
+            {
+                PlayersListView.Items.Add(p.ToString());
+            }
         }
 
 
@@ -496,6 +502,7 @@ namespace FloresOlderr_Assignment2
             {
                 foreach (Player p in player_roster)
                 {
+                    player_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
                     if (p.Name.ToUpper().Contains(player_filter.ToUpper()))
                     {
                         PlayersListView.Items.Add(p.ToString());
@@ -506,6 +513,7 @@ namespace FloresOlderr_Assignment2
             {
                 foreach (Player p in player_roster)
                 {
+                    player_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
                     PlayersListView.Items.Add(p.ToString());
                 }
             }
@@ -515,6 +523,7 @@ namespace FloresOlderr_Assignment2
             { 
                 foreach (Guild g in guild_roster)
                 {
+                    guild_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
                     if (g.Server.ToUpper().Contains(guild_filter.ToUpper()))
                     {
                         GuildsListView.Items.Add(g.ToString());
@@ -525,6 +534,7 @@ namespace FloresOlderr_Assignment2
             {
                 foreach (Guild g in guild_roster)
                 {
+                    guild_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
                     GuildsListView.Items.Add(g.ToString());
                 }
             }
@@ -793,7 +803,12 @@ namespace FloresOlderr_Assignment2
 
             Guild guild = new Guild(id, name, server);
             guild_roster.Add(guild);
-            GuildsListView.Items.Add(guild.ToString());
+            guild_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
+            GuildsListView.Clear();
+            foreach (Guild g in guild_roster)
+            {
+                GuildsListView.Items.Add(g.ToString());
+            }
             SearchGuildTextBox.AutoCompleteCustomSource.Add(guild.Server);
             customGuilds.Add(id, name);
         }
@@ -964,6 +979,18 @@ namespace FloresOlderr_Assignment2
         {
 
             return String.Format("{0: -20} [{1: 20}]", name, server);
+        }
+
+        public int CompareTo(object alpha)
+        {
+            Guild itemObject = (Guild)alpha;
+            int value = itemObject.Name.CompareTo(this.Name);
+            if (value == 1)
+                return 1;
+            else if (value == -1)
+                return -1;
+            else
+                return 0;
         }
 
     }
